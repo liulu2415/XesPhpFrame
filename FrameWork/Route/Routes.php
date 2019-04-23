@@ -32,22 +32,22 @@ class Route
         }
 
         if (!class_exists($className)) {
-            return $response->withStatus(404)->withHeader('Content-Type', 'text/html')->withJson(['stat' => 0, 'data' => '404 Page Not Found']);
+            return $response->setCode(404)->setHeader('Content-Type', 'text/html')->write(['stat' => 0, 'data' => '404 Page Not Found']);
         }
 
         $obj = new $className();
 
         if (!method_exists($obj, $_REQUEST['st'])) {
-            return $response->withStatus(404)->withHeader('Content-Type', 'text/html')->withJson(['stat' => 0, 'data' => '404 Page Not Found']);
+            return $response->setCode(404)->setHeader('Content-Type', 'text/html')->write(['stat' => 0, 'data' => '404 Page Not Found']);
         }
 
         if (!method_exists($obj, $action)) {
-            return $response->withStatus(404)->withHeader('Content-Type', 'text/html')->withJson(['stat' => 0, 'data' => '404 Page Not Found']);
+            return $response->setCode(404)->setHeader('Content-Type', 'text/html')->write(['stat' => 0, 'data' => '404 Page Not Found']);
         }
 
         $data = $obj->$action();
 
-        return $response->withJson($data);
+        $response->write($data);
     }
 
 }

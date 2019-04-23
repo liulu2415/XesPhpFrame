@@ -5,13 +5,12 @@ if (!defined('DS')) {
 }
 
 require __DIR__ . '/../Common/Autoload.php';
-require __DIR__ . '/../Route/Routes.php';
 
 Autoloader::init();
 
 setBasePath(dirname(__DIR__));
 $settings = require __DIR__ . '/../Config/Config.php';
 
-$app = new Core;
+$app = new Core();
 
 $app->run();
