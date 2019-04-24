@@ -4,13 +4,16 @@ if (!defined('DS')) {
     define('DS', DIRECTORY_SEPARATOR);
 }
 
-require __DIR__ . '/../Common/Autoload.php';
+if (!defined('ROOT_DIR')) {
+    define('ROOT_DIR', dirname(dirname(__FILE__)));
+}
 
-Autoloader::init();
+require __DIR__ . '/../FrameWork/Autoloader.php';
 
-setBasePath(dirname(__DIR__));
+FrameWork\Autoloader::init();
+
 $settings = require __DIR__ . '/../Config/Config.php';
 
-$app = new Core();
+$app = new FrameWork\Core();
 
 $app->run();

@@ -24,6 +24,7 @@ class Autoloader
      */
     public static function init()
     {
+
         if (empty(self::$loader)) {
             self::$loader = new self();
         }
@@ -36,7 +37,9 @@ class Autoloader
      */
     public function getLoader($path)
     {
+
         $filePath = ROOT_DIR . DIRECTORY_SEPARATOR . $path . '.php';
+
         if (is_file($filePath)) {
             require $filePath;
         }

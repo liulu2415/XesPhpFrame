@@ -6,6 +6,10 @@
 
 namespace FrameWork;
 
+use FrameWork\Http\Request;
+use FrameWork\Http\Response;
+use FrameWork\Router\Router;
+
 class Container
 {
 
@@ -13,7 +17,7 @@ class Container
 
     public function __set($key, $value)
     {
-        $this->service[$k] = $c;
+        $this->service[$key] = $value;
     }
 
     public function __get($key)
@@ -28,10 +32,10 @@ class Container
     {
 
         //反射
-        $reflector = new ReflectionClass($className);
+        $reflector = new \ReflectionClass($className);
 
         if (!$reflector->isInstantiable()) {
-            throw new Exception("Can't instantiate this.");
+            throw new \Exception("Can't instantiate this.");
         }
 
         //获取构造函数

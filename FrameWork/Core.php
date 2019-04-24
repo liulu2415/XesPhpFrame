@@ -17,9 +17,10 @@ class Core
     public function init()
     {
         $this->container = new Container();
-        $this->container->request = 'request';
-        $this->container->response = 'response';
-        $this->container->log = 'log';
+        $this->container->request = 'FrameWork\Http\Request';
+        $this->container->response = 'FrameWork\Http\Response';
+        $this->container->log = 'FrameWork\Log\Log';
+        $this->container->Router = "FrameWork\Router\Router";
     }
 
     /**
@@ -29,9 +30,9 @@ class Core
     {
 
         $this->init();
-        $route = $container->Route;
+        $router = $this->container->Router;
 
-        $route->Route();
+        $router->Router();
     }
 
 }
