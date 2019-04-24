@@ -40,12 +40,10 @@ class Response
     /**
      * 设置header头
      */
-    public function setHeader($headers = '')
+    public function setHeader($key = '', $value = '')
     {
-        $headers = explode(',', $headers);
-
         $clone = clone $this;
-        $clone->headers = $headers;
+        $clone->headers[$key] = $value;
 
         return $clone;
     }
@@ -57,11 +55,11 @@ class Response
     {
         $output = sprintf('HTTP/%s %s', $this->httpVersion, $this->code);
 
-        foreach ($this->headers as $name => $values) {
-            $output .= sprintf('%s: %s', $name, $values);
+        foreach ($this->headers as $key => $value) {
+            $output .= sprintf(' %s: %s ', $key, $value);
         }
 
-        $output .= json_encode($this->body);
+        $output .= json_encode($data);
 
         echo $output;
         exit;
