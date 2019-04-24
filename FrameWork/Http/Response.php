@@ -9,30 +9,23 @@ namespace FrameWork\Http;
 class Response
 {
 
-    protected $httpVersion = "1.1";
-    protected $code = 200;
+    protected $protocolVersion = "1.1";
+    protected $statusCode = 200;
     protected $headers = '';
     protected $body = '';
-
-    public function __construct($code = 200, $headers = [], $body = '')
-    {
-        $this->headers = $headers;
-        $this->code = $code;
-        $this->body = $body;
-    }
 
     /**
      * 设置状态码
      */
-    public function setCode($code)
+    public function setStatusCode($statusCode)
     {
 
-        if (!is_int($code) || $code < 100 || $code > 599) {
+        if (!is_int($statusCode) || $statusCode < 100 || $statusCode > 599) {
             return false;
         }
 
         $clone = clone $this;
-        $clone->code = $code;
+        $clone->statusCode = $statusCode;
 
         return $clone;
     }
@@ -49,20 +42,76 @@ class Response
     }
 
     /**
+     * 设置消息体
+     */
+    public function setBody($bodyContent = '')
+    {
+        $clone = clone $this;
+        $clone->body = $bodyContent;
+
+        return $clone;
+    }
+
+    /**
+     * 设置协议类型
+     */
+    public function setProtocolVersion($protocolVersion = "1.1")
+    {
+        $clone = clone $this;
+        $clone->protocolVersion = $protocolVersion;
+
+        return $clone;
+    }
+
+    /**
+     * 获取header头
+     */
+    public function getHeaders()
+    {
+        return $this->headers;
+    }
+
+    /**
+     * 获取状态码
+     */
+    public function getStatusCode()
+    {
+        return $this->statusCode;
+    }
+
+    /**
+     * 获取协议类型
+     */
+    public function getProtocolVersion()
+    {
+        return $this->protocolVersion;
+    }
+
+    /**
+     * 获取消息体
+     */
+    public function getBody()
+    {
+        return $this->body;
+    }
+
+    /**
      * 返回
      */
-    public function write($data)
+    public function respond($data = '')
     {
-        $output = sprintf('HTTP/%s %s', $this->httpVersion, $this->code);
 
-        foreach ($this->headers as $key => $value) {
-            $output .= sprintf(' %s: %s ', $key, $value);
+        header(sprintf('HTTP/%s %s', $this->getProtocolVersion(), $this->getStatusCode()));
+
+        foreach ($this->getHeaders() as $key => $value) {
+            header(sprintf('%s: %s', $key, $value), false);
         }
+
+        $output = $this->getBody();
 
         $output .= json_encode($data);
 
         echo $output;
-        exit;
     }
 
 }

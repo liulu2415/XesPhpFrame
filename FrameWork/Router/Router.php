@@ -35,13 +35,13 @@ class Router
         }
 
         if (!class_exists($className)) {
-            return $this->response->setCode(404)->setHeader('Content-Type', 'text/html')->write(['stat' => 0, 'data' => '404 Page Not Found']);
+            return $this->response->setStatusCode(404)->setHeader('Content-Type', 'text/html')->respond(['stat' => 0, 'data' => '404 Page Not Found']);
         }
 
         $obj = new $className();
 
         if (!method_exists($obj, $action)) {
-            return $this->response->setCode(404)->setHeader('Content-Type', 'text/html')->write(['stat' => 0, 'data' => '404 Page Not Found']);
+            return $this->response->setStatusCode(404)->setHeader('Content-Type', 'text/html')->respond(['stat' => 0, 'data' => '404 Page Not Found']);
         }
 
         $data = $obj->$action();
