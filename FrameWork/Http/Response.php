@@ -103,9 +103,12 @@ class Response
 
         header(sprintf('HTTP/%s %s', $this->getProtocolVersion(), $this->getStatusCode()));
 
-        foreach ($this->getHeaders() as $key => $value) {
-            header(sprintf('%s: %s', $key, $value), false);
+        if (!empty($this->getHeaders())) {
+            foreach ($this->getHeaders() as $key => $value) {
+                header(sprintf('%s: %s', $key, $value), false);
+            }
         }
+
 
         $output = $this->getBody();
 

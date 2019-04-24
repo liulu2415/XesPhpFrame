@@ -25,7 +25,7 @@ class Router
 
         $uri = $this->request->getUri();
 
-        $className = 'App\Controller';
+        $className = 'Controller';
 
         $params = explode('/', trim($uri, '/'));
         $action = array_pop($params);
@@ -46,7 +46,7 @@ class Router
 
         $data = $obj->$action();
 
-        $this->response->write($data);
+        $this->response->respond($data);
     }
 
 }
